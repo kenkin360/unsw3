@@ -1,3 +1,3 @@
 # Assignment 21T3
 
-[Link to specification](https://gitlab.cse.unsw.edu.au/COMP2511/21T3/assignment-specification)
+[Link to specification](https://github.com/kenkins/unsw3/blob/master/assignment-specification.pdf)
