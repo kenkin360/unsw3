@@ -81,7 +81,7 @@ public class SelfTesting {
     }
 
     @Test
-    public void CheckFileAdded() {
+    public void testCheckFileAdded() {
         // Task 1: add a file to a device.
         BlackoutController controller = new BlackoutController();
 
@@ -111,7 +111,7 @@ public class SelfTesting {
     }
 
     @Test
-    public void changeSatellitePosition() {
+    public void testChangeSatellitePosition() {
         // Task 2: simulate all actions in the Blackout system.
         BlackoutController controller = new BlackoutController();
 
@@ -137,7 +137,7 @@ public class SelfTesting {
     }
 
     @Test
-    public void changeRelaySatellitePosition() {
+    public void testChangeRelaySatellitePosition() {
         // Task 2: simulate all actions in the Blackout system.
         BlackoutController controller = new BlackoutController();
 
@@ -177,5 +177,27 @@ public class SelfTesting {
         assertEquals(new EntityInfoResponse("AUSTRALIA", Angle.fromDegrees(141.06), 300 + RADIUS_OF_JUPITER, "RelaySatellite"), controller.getInfo("AUSTRALIA"));
         controller.simulate(5);
         assertEquals(new EntityInfoResponse("AUSTRALIA", Angle.fromDegrees(147.21), 300 + RADIUS_OF_JUPITER, "RelaySatellite"), controller.getInfo("AUSTRALIA"));
+    }
+
+    @Test
+    public void testEntitiesInRange() {
+        // Task 2: check all possible objects in range of the chosen object.
+        BlackoutController controller = new BlackoutController();
+
+        // Creates 3 satellite and 3 devices
+        controller.createSatellite("USA", "StandardSatellite", 1000 + RADIUS_OF_JUPITER, Angle.fromDegrees(300));
+        controller.createSatellite("TAIWAN", "ShrinkingSatellite", 1000 + RADIUS_OF_JUPITER, Angle.fromDegrees(340));
+        controller.createSatellite("AUSTRALIA", "RelaySatellite", 2000 + RADIUS_OF_JUPITER, Angle.fromDegrees(320));
+        controller.createDevice("ASUS", "HandheldDevice", Angle.fromDegrees(310));
+        controller.createDevice("MSI", "LaptopDevice", Angle.fromDegrees(320));
+        controller.createDevice("RAZER", "DesktopDevice", Angle.fromDegrees(315));
+
+        assertListAreEqualIgnoringOrder(Arrays.asList("ASUS", "AUSTRALIA"), controller.communicableEntitiesInRange("USA"));
+        assertListAreEqualIgnoringOrder(Arrays.asList("AUSTRALIA"), controller.communicableEntitiesInRange("TAIWAN"));
+        assertListAreEqualIgnoringOrder(Arrays.asList("ASUS", "MSI", "RAZER", "USA", "TAIWAN"), controller.communicableEntitiesInRange("AUSTRALIA"));
+
+        assertListAreEqualIgnoringOrder(Arrays.asList("USA", "AUSTRALIA"), controller.communicableEntitiesInRange("ASUS"));
+        assertListAreEqualIgnoringOrder(Arrays.asList("AUSTRALIA"), controller.communicableEntitiesInRange("MSI"));
+        assertListAreEqualIgnoringOrder(Arrays.asList("AUSTRALIA"), controller.communicableEntitiesInRange("RAZER"));
     }
 }
