@@ -9,9 +9,9 @@ import unsw.response.models.EntityInfoResponse;
 import unsw.response.models.FileInfoResponse;
 import unsw.utils.Angle;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+// import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+// import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 import static blackout.TestHelpers.assertListAreEqualIgnoringOrder;
 
@@ -81,7 +81,7 @@ public class SelfTesting {
     }
 
     @Test
-    public void basicFileSupport() {
+    public void CheckFileAdded() {
         // Task 1: add a file to a device.
         BlackoutController controller = new BlackoutController();
 
@@ -111,26 +111,39 @@ public class SelfTesting {
     }
 
     @Test
-    public void changePosition() {
+    public void changeSatellitePosition() {
         // Task 2: simulate all actions in the Blackout system.
         BlackoutController controller = new BlackoutController();
 
-        // Creates 3 satellites.
+        // Creates a StandardSatellite and ShrinkingSatellite.
         controller.createSatellite("USA", "StandardSatellite", 100 + RADIUS_OF_JUPITER, Angle.fromDegrees(340));
         controller.createSatellite("TAIWAN", "ShrinkingSatellite", 200 + RADIUS_OF_JUPITER, Angle.fromDegrees(270));
-        controller.createSatellite("AUSTRALIA", "RelaySatellite", 300 + RADIUS_OF_JUPITER, Angle.fromDegrees(130));
 
         // moves in anticlockwise direction.
         assertEquals(new EntityInfoResponse("USA", Angle.fromDegrees(340), 100 + RADIUS_OF_JUPITER, "StandardSatellite"), controller.getInfo("USA"));
+        assertEquals(new EntityInfoResponse("TAIWAN", Angle.fromDegrees(270), 200 + RADIUS_OF_JUPITER, "ShrinkingSatellite"), controller.getInfo("TAIWAN"));
         controller.simulate();
         assertEquals(new EntityInfoResponse("USA", Angle.fromDegrees(342.05), 100 + RADIUS_OF_JUPITER, "StandardSatellite"), controller.getInfo("USA"));
+        assertEquals(new EntityInfoResponse("TAIWAN", Angle.fromDegrees(270.82), 200 + RADIUS_OF_JUPITER, "ShrinkingSatellite"), controller.getInfo("TAIWAN"));
         controller.simulate();
         assertEquals(new EntityInfoResponse("USA", Angle.fromDegrees(344.10), 100 + RADIUS_OF_JUPITER, "StandardSatellite"), controller.getInfo("USA"));
+        assertEquals(new EntityInfoResponse("TAIWAN", Angle.fromDegrees(271.64), 200 + RADIUS_OF_JUPITER, "ShrinkingSatellite"), controller.getInfo("TAIWAN"));
         controller.simulate();
         assertEquals(new EntityInfoResponse("USA", Angle.fromDegrees(346.15), 100 + RADIUS_OF_JUPITER, "StandardSatellite"), controller.getInfo("USA"));
-        controller.simulate(20);
+        assertEquals(new EntityInfoResponse("TAIWAN", Angle.fromDegrees(272.86), 200 + RADIUS_OF_JUPITER, "ShrinkingSatellite"), controller.getInfo("TAIWAN"));
+        controller.simulate(5);
+        assertEquals(new EntityInfoResponse("USA", Angle.fromDegrees(356.39), 100 + RADIUS_OF_JUPITER, "StandardSatellite"), controller.getInfo("USA"));
+        assertEquals(new EntityInfoResponse("TAIWAN", Angle.fromDegrees(276.56), 200 + RADIUS_OF_JUPITER, "ShrinkingSatellite"), controller.getInfo("TAIWAN")); 
+    }
 
-        // Special case for Relay Satellite. 
+    @Test
+    public void changeRelaySatellitePosition() {
+        // Task 2: simulate all actions in the Blackout system.
+        BlackoutController controller = new BlackoutController();
+
+        // Create a RelaySatellite.
+        controller.createSatellite("AUSTRALIA", "RelaySatellite", 300 + RADIUS_OF_JUPITER, Angle.fromDegrees(130));
+
         // When it moves to the region between 140° and 190°, it will move back and forth within the region.
         // moves forward with anticlockwise direction.
         assertEquals(new EntityInfoResponse("AUSTRALIA", Angle.fromDegrees(130), 300 + RADIUS_OF_JUPITER, "RelaySatellite"), controller.getInfo("AUSTRALIA"));
@@ -142,15 +155,27 @@ public class SelfTesting {
         assertEquals(new EntityInfoResponse("AUSTRALIA", Angle.fromDegrees(133.69), 300 + RADIUS_OF_JUPITER, "RelaySatellite"), controller.getInfo("AUSTRALIA"));
         
         // edge case
-        controller.simulate(49);
+        controller.simulate(45);
         assertEquals(new EntityInfoResponse("AUSTRALIA", Angle.fromDegrees(189.01), 300 + RADIUS_OF_JUPITER, "RelaySatellite"), controller.getInfo("AUSTRALIA"));
         controller.simulate(1);
         assertEquals(new EntityInfoResponse("AUSTRALIA", Angle.fromDegrees(190.24), 300 + RADIUS_OF_JUPITER, "RelaySatellite"), controller.getInfo("AUSTRALIA"));
         
         // goes backward with clockwise direction.
         controller.simulate(1);
-        assertEquals(new EntityInfoResponse("Satellite1", Angle.fromDegrees(189.82), 100 + RADIUS_OF_JUPITER, "RelaySatellite"), controller.getInfo("Satellite1"));
+        assertEquals(new EntityInfoResponse("AUSTRALIA", Angle.fromDegrees(189.01), 300 + RADIUS_OF_JUPITER, "RelaySatellite"), controller.getInfo("AUSTRALIA"));
         controller.simulate(5);
-        assertEquals(new EntityInfoResponse("Satellite1", Angle.fromDegrees(183.69), 100 + RADIUS_OF_JUPITER, "RelaySatellite"), controller.getInfo("Satellite1"));
+        assertEquals(new EntityInfoResponse("AUSTRALIA", Angle.fromDegrees(182.86), 300 + RADIUS_OF_JUPITER, "RelaySatellite"), controller.getInfo("AUSTRALIA"));
+
+        // edge case
+        controller.simulate(34);
+        assertEquals(new EntityInfoResponse("AUSTRALIA", Angle.fromDegrees(141.06), 300 + RADIUS_OF_JUPITER, "RelaySatellite"), controller.getInfo("AUSTRALIA"));
+        controller.simulate(1);
+        assertEquals(new EntityInfoResponse("AUSTRALIA", Angle.fromDegrees(139.83), 300 + RADIUS_OF_JUPITER, "RelaySatellite"), controller.getInfo("AUSTRALIA"));
+
+        // goes backward with anticlockwise direction.
+        controller.simulate(1);
+        assertEquals(new EntityInfoResponse("AUSTRALIA", Angle.fromDegrees(141.06), 300 + RADIUS_OF_JUPITER, "RelaySatellite"), controller.getInfo("AUSTRALIA"));
+        controller.simulate(5);
+        assertEquals(new EntityInfoResponse("AUSTRALIA", Angle.fromDegrees(147.21), 300 + RADIUS_OF_JUPITER, "RelaySatellite"), controller.getInfo("AUSTRALIA"));
     }
 }
