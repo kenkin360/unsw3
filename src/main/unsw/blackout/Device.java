@@ -29,16 +29,8 @@ public abstract class Device {
      * getter for device name.
      * @return
      */
-    public String getDeviceId() {
+    public String getId() {
         return this.deviceId;
-    }
-
-    /**
-     * setter for device name.
-     * @param deviceId
-     */
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
     }
 
     /**
@@ -50,27 +42,11 @@ public abstract class Device {
     }
 
     /**
-     * setter for device type.
-     * @param type
-     */
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
      * getter for device angular position.
      * @return
      */
     public Angle getPosition() {
         return this.position;
-    }
-
-    /**
-     * setter for device angular position.
-     * @param position
-     */
-    public void setPosition(Angle position) {
-        this.position = position;
     }
 
     /**

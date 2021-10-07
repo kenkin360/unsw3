@@ -33,7 +33,7 @@ public class HandheldDevice extends Device {
     @Override
     public EntityInfoResponse getDeviceInfo() {
         // TODO Auto-generated method stub
-        String id = super.getDeviceId();
+        String id = super.getId();
         Angle position = super.getPosition();
         double height = RADIUS_OF_JUPITER;
         String type = super.getType();
@@ -81,7 +81,7 @@ public class HandheldDevice extends Device {
         satelliteList = controller.getSatelliteList();
         for (Satellite satellite : satelliteList) {
             if (MathsHelper.isVisible(satellite.getHeight(), satellite.getPosition(), super.getPosition())) {
-                listCommunicableEntities.add(satellite.getSatelliteId());
+                listCommunicableEntities.add(satellite.getId());
             }
         }
         return listCommunicableEntities;

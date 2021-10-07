@@ -45,7 +45,7 @@ public class ShrinkingSatellite extends Satellite {
     @Override
     public EntityInfoResponse getSatelliteInfo() {
         // TODO Auto-generated method stub
-        String id = super.getSatelliteId();
+        String id = super.getId();
         Angle position = super.getPosition();
         double height = super.getHeight();
         String type = super.getType();
@@ -94,18 +94,18 @@ public class ShrinkingSatellite extends Satellite {
         deviceList = controller.getDeviceList();
         satelliteList = controller.getSatelliteList();
         for (Satellite satellite : satelliteList) {
-            if (satellite.getSatelliteId().equals(super.getSatelliteId())) {
+            if (satellite.getId().equals(super.getId())) {
                 // Ignore the selected satellite itself
             }
             else {
                 if (MathsHelper.isVisible(super.getHeight(), super.getPosition(), satellite.getHeight(), satellite.getPosition())) {
-                    listCommunicableEntities.add(satellite.getSatelliteId());
+                    listCommunicableEntities.add(satellite.getId());
                 }
             }
         }
         for (Device device : deviceList) {
             if (MathsHelper.isVisible(super.getHeight(), super.getPosition(), device.getPosition())) {
-                listCommunicableEntities.add(device.getDeviceId());
+                listCommunicableEntities.add(device.getId());
             }    
         }
         return listCommunicableEntities;

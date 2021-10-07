@@ -44,7 +44,7 @@ public class BlackoutController {
         // TODO: Task 1b)
         while(itr.hasNext()) {
             Device device = itr.next(); 
-            if (device.getDeviceId().equals(deviceId)) { 
+            if (device.getId().equals(deviceId)) { 
                 itr.remove(); 
             } 
         }
@@ -82,7 +82,7 @@ public class BlackoutController {
         Iterator<Satellite> itr = satellites.iterator();
         while(itr.hasNext()) {
             Satellite satellite = itr.next();
-            if (satellite.getSatelliteId().equals(satelliteId)) {
+            if (satellite.getId().equals(satelliteId)) {
                 itr.remove();
             }
         }
@@ -96,7 +96,7 @@ public class BlackoutController {
         // TODO: Task 1e)
         List<String> deviceList = new ArrayList<String>();
         for (Device device : devices) {
-            deviceList.add(device.getDeviceId());
+            deviceList.add(device.getId());
         }
         return deviceList;
     }
@@ -109,7 +109,7 @@ public class BlackoutController {
         // TODO: Task 1f)
         List<String> satelliteList = new ArrayList<String>();
         for (Satellite satellite : satellites) {
-            satelliteList.add(satellite.getSatelliteId());
+            satelliteList.add(satellite.getId());
         }
         return satelliteList;
     }
@@ -124,7 +124,7 @@ public class BlackoutController {
         // TODO: Task 1g)
         File file = new File(filename, content);
         for (Device device : devices) {
-            if (device.getDeviceId().equals(deviceId)) { 
+            if (device.getId().equals(deviceId)) { 
                 device.addFile(file);
             }
         }
@@ -140,13 +140,13 @@ public class BlackoutController {
         EntityInfoResponse mapInfo = null;
 
         for (Device device : devices) {
-            if (device.getDeviceId().equals(id)) {
+            if (device.getId().equals(id)) {
                 mapInfo = device.getDeviceInfo();
             }
         }
 
         for (Satellite satellite : satellites) {
-            if (satellite.getSatelliteId().equals(id)) {
+            if (satellite.getId().equals(id)) {
                 mapInfo = satellite.getSatelliteInfo();
             }
         }
@@ -182,12 +182,12 @@ public class BlackoutController {
         // TODO Task 2b)
         List<String> listCommunicableStrings = new ArrayList<String>();
         for (Satellite satellite : satellites) {
-            if (satellite.getSatelliteId().equals(id)) {
+            if (satellite.getId().equals(id)) {
                 listCommunicableStrings = satellite.updateListOfCommunicableEntities(this);
             }
         }
         for (Device device : devices) {
-            if (device.getDeviceId().equals(id)) {
+            if (device.getId().equals(id)) {
                 listCommunicableStrings = device.updateListOfCommunicableEntities(this);
             }
         }
@@ -241,7 +241,7 @@ public class BlackoutController {
         }
         
         for (Satellite satellite : satellites) {
-            if (satellite.getSatelliteId().equals(toId)) {
+            if (satellite.getId().equals(toId)) {
                 
             }
         }

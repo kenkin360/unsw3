@@ -32,16 +32,8 @@ public abstract class Satellite {
      * getter for satellite name.
      * @return
      */
-    public String getSatelliteId() {
+    public String getId() {
         return this.satelliteId;
-    }
-
-    /**
-     * setter for satellite name.
-     * @param satelliteId
-     */
-    public void setSatelliteId(String satelliteId) {
-        this.satelliteId = satelliteId;
     }
 
     /**
@@ -53,27 +45,11 @@ public abstract class Satellite {
     }
 
     /**
-     * setter for satellite type.
-     * @param type
-     */
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
      * getter for satellite height.
      * @return
      */
     public double getHeight() {
         return this.height;
-    }
-
-    /**
-     * setter for satellite height.
-     * @param height
-     */
-    public void setHeight(double height) {
-        this.height = height;
     }
 
     /**

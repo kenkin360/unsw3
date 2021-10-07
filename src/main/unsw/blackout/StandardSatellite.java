@@ -45,7 +45,7 @@ public class StandardSatellite extends Satellite {
     @Override
     public EntityInfoResponse getSatelliteInfo() {
         // TODO Auto-generated method stub
-        String id = super.getSatelliteId();
+        String id = super.getId();
         Angle position = super.getPosition();
         double height = super.getHeight();
         String type = super.getType();
@@ -94,19 +94,19 @@ public class StandardSatellite extends Satellite {
         deviceList = controller.getDeviceList();
         satelliteList = controller.getSatelliteList();
         for (Satellite satellite : satelliteList) {
-            if (satellite.getSatelliteId().equals(super.getSatelliteId())) {
+            if (satellite.getId().equals(super.getId())) {
                 // Skip the targeted satellite itself
             }
             else {
                 if (MathsHelper.isVisible(satellite.getHeight(), satellite.getPosition(), super.getHeight(), super.getPosition())) {
-                    listCommunicableEntities.add(satellite.getSatelliteId());
+                    listCommunicableEntities.add(satellite.getId());
                 }
             }
         }
         for (Device device : deviceList) {
             if (device.getType().equals("HandheldDevice") || device.getType().equals("LaptopDevice")) {
                 if (MathsHelper.isVisible(super.getHeight(), super.getPosition(), device.getPosition())) {
-                    listCommunicableEntities.add(device.getDeviceId());
+                    listCommunicableEntities.add(device.getId());
                 }
             }
         }
