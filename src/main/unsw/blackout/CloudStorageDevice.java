@@ -1,14 +1,25 @@
 package unsw.blackout;
 
+import static unsw.utils.MathsHelper.RADIUS_OF_JUPITER;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import unsw.response.models.EntityInfoResponse;
+import unsw.response.models.FileInfoResponse;
 import unsw.utils.Angle;
+import unsw.utils.MathsHelper;
 
 public class CloudStorageDevice extends Device {
 
     /**
-     * 
+     * Constructor for CloudStorageDevice.
+     * @param deviceId
+     * @param type
+     * @param position
      */
     public CloudStorageDevice(String deviceId, String type, Angle position) {
         super(deviceId, type, position);
@@ -16,21 +27,63 @@ public class CloudStorageDevice extends Device {
     }
 
     /**
-     * 
+     * Display all information of CloudStorageDevice.
      */
     @Override
     public EntityInfoResponse getDeviceInfo() {
         // TODO Auto-generated method stub
-        return null;
+        String id = super.getDeviceId();
+        Angle position = super.getPosition();
+        double height = RADIUS_OF_JUPITER;
+        String type = super.getType();
+        
+        List<File> listFiles = super.getFileList();
+        String filename;
+        String data;
+        int fileSize;
+        boolean hasTransferCompleted = true;
+
+        FileInfoResponse fileInfo;
+        EntityInfoResponse deviceInfo = null;
+        /** 
+         * Check if the files are added to the device or not.
+         * If no, then display the information without the information of files.
+         * Otherwise, add all information of the files to the device.
+         */
+        if (listFiles.size() == 0) {
+            deviceInfo = new EntityInfoResponse(id, position, height, type);
+        }
+        else {
+            Map<String, FileInfoResponse> mapFiles = new HashMap<String, FileInfoResponse>();
+            Iterator<File> itr = listFiles.iterator();
+            while(itr.hasNext()) {
+                File file = itr.next();
+                filename = file.getFilename();
+                data = file.getContent();
+                fileSize = data.length();
+                fileInfo = new FileInfoResponse(filename, data, fileSize, hasTransferCompleted);
+                mapFiles.put(filename, fileInfo);
+            }
+            deviceInfo = new EntityInfoResponse(id, position, height, type, mapFiles);
+        }
+        return deviceInfo;
     }
 
     /**
-     * 
+     * List all the satellites that CloudStorageDevice can communicate with in the certain range.
      */
     @Override
     public List<String> updateListOfCommunicableEntities(BlackoutController controller) {
         // TODO Auto-generated method stub
-        return null;
+        List<String> listCommunicableEntities = new ArrayList<String>();
+        List<Satellite> satelliteList = new ArrayList<Satellite>();
+        satelliteList = controller.getSatelliteList();
+        for (Satellite satellite : satelliteList) {
+            if (MathsHelper.isVisible(satellite.getHeight(), satellite.getPosition(), super.getPosition())) {
+                listCommunicableEntities.add(satellite.getSatelliteId());
+            } 
+        }
+        return listCommunicableEntities;
     }
     
 }

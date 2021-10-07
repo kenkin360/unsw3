@@ -17,7 +17,10 @@ import unsw.utils.MathsHelper;
 public class HandheldDevice extends Device {
 
     /**
-     * 
+     * Constructor for HandheldDevice
+     * @param deviceId
+     * @param type
+     * @param position
      */
     public HandheldDevice(String deviceId, String type, Angle position) {
         super(deviceId, "HandheldDevice", position);
@@ -25,7 +28,7 @@ public class HandheldDevice extends Device {
     }
 
     /**
-     * Display all information of the HandheldDevice.
+     * Display all information of HandheldDevice.
      */
     @Override
     public EntityInfoResponse getDeviceInfo() {
@@ -68,7 +71,7 @@ public class HandheldDevice extends Device {
     }
 
     /**
-     * List all the satellites that the HandheldDevice can communicate with in the certain range. 
+     * List all the satellites that HandheldDevice can communicate with in the certain range. 
      */
     @Override
     public List<String> updateListOfCommunicableEntities(BlackoutController controller) {

@@ -16,7 +16,10 @@ import unsw.utils.MathsHelper;
 public class DesktopDevice extends Device {
 
     /**
-     * 
+     * Constructor for DesktopDevice.
+     * @param deviceId
+     * @param type
+     * @param position
      */
     public DesktopDevice(String deviceId, String type, Angle position) {
         super(deviceId, "DesktopDevice", position);
@@ -24,7 +27,7 @@ public class DesktopDevice extends Device {
     }
 
     /**
-     * Display all information of the DesktopDevice.
+     * Display all information of DesktopDevice.
      */
     @Override
     public EntityInfoResponse getDeviceInfo() {
@@ -67,7 +70,7 @@ public class DesktopDevice extends Device {
     }
 
     /**
-     * List all the satellites that the DesktopDevice can communicate with in the certain range. 
+     * List all the satellites that DesktopDevice can communicate with in the certain range.
      */
     @Override
     public List<String> updateListOfCommunicableEntities(BlackoutController controller) {

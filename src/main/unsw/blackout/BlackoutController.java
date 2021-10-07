@@ -13,11 +13,14 @@ import unsw.utils.Angle;
 
 public class BlackoutController {
 
-    List<Device> devices = new ArrayList<Device>();
-    List<Satellite> satellites = new ArrayList<Satellite>();
+    List<Device> devices = new ArrayList<Device>(); // Create an empty list for storing devices.
+    List<Satellite> satellites = new ArrayList<Satellite>(); // Create an empty list for storing satellites.
 
     /**
      * Create a new device to the Blackout system.
+     * @param deviceId
+     * @param type
+     * @param position
      */
     public void createDevice(String deviceId, String type, Angle position) {
         // TODO: Task 1a)
@@ -33,7 +36,8 @@ public class BlackoutController {
     }
 
     /**
-     * remove the targeted device.
+     * Remove the targeted device.
+     * @param deviceId
      */
     public void removeDevice(String deviceId) {
         Iterator<Device> itr = devices.iterator();
@@ -48,6 +52,10 @@ public class BlackoutController {
 
     /**
      * Create a new satellite to the Blackout system.
+     * @param satelliteId
+     * @param type
+     * @param height
+     * @param position
      */
     public void createSatellite(String satelliteId, String type, double height, Angle position) {
         // TODO: Task 1c)
@@ -66,7 +74,8 @@ public class BlackoutController {
     }
 
     /**
-     * remove the targeted satellite.
+     * Remove the targeted satellite.
+     * @param satelliteId
      */
     public void removeSatellite(String satelliteId) {
         // TODO: Task 1d)
@@ -80,7 +89,8 @@ public class BlackoutController {
     }
 
     /**
-     * List the name of all existing devices.
+     * List the name of all existing devices in Blackout system.
+     * @return a list of string of name for all existing devices.
      */
     public List<String> listDeviceIds() {
         // TODO: Task 1e)
@@ -92,7 +102,8 @@ public class BlackoutController {
     }
 
     /**
-     * List the name of all existing satellites.
+     * List the name of all existing satellites in Blackout system.
+     * @return a list of string of name for all existing satellites.
      */
     public List<String> listSatelliteIds() {
         // TODO: Task 1f)
@@ -103,8 +114,11 @@ public class BlackoutController {
         return satelliteList;
     }
 
-    /** 
+    /**
      * Add a new file with the given name and contents to the selected device.
+     * @param deviceId
+     * @param filename
+     * @param content
      */
     public void addFileToDevice(String deviceId, String filename, String content) {
         // TODO: Task 1g)
@@ -116,8 +130,10 @@ public class BlackoutController {
         }
     }
 
-    /** 
+    /**
      * Display all information of the selected object.
+     * @param id
+     * @return a map of all information about the chosen object.
      */
     public EntityInfoResponse getInfo(String id) {
         // TODO: Task 1h)
@@ -159,6 +175,8 @@ public class BlackoutController {
 
     /**
      * List all the objects which the selected object is communicable within its range.
+     * @param id
+     * @return a list of string for all possible objects that is visible from the chosen object. 
      */
     public List<String> communicableEntitiesInRange(String id) {
         // TODO Task 2b)
@@ -178,6 +196,10 @@ public class BlackoutController {
 
     /**
      * Send the selected file from the selected object to the targeted object.
+     * @param fileName
+     * @param fromId
+     * @param toId
+     * @throws FileTransferException
      */
     public void sendFile(String fileName, String fromId, String toId) throws FileTransferException {
         // TODO Task 2c)
@@ -226,15 +248,18 @@ public class BlackoutController {
     }
     
     // Helper Functions
-    /** 
+
+    /**
      * List all the existing devices the Blackout system.
+     * @return a list of devices
      */
     public  List<Device> getDeviceList() {
         return devices;
     }
 
-    /** 
+    /**
      * List all the existing satellites in the Blackout system.
+     * @return a list of satellites
      */
     public  List<Satellite> getSatelliteList() {
         return satellites;

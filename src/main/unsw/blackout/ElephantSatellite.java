@@ -16,15 +16,19 @@ import unsw.utils.MathsHelper;
 public class ElephantSatellite extends Satellite {
 
     /**
-     * 
+     * Constructor for ElphantSatellite.
+     * @param satelliteId
+     * @param type
+     * @param height
+     * @param position
      */
     public ElephantSatellite(String satelliteId, String type, double height, Angle position) {
-        super(satelliteId, type, height, position);
+        super(satelliteId, "ElephantSatellite", height, position);
         //TODO Auto-generated constructor stub
     }
 
     /**
-     * 
+     * Display all information of ElephantSatellite.
      */
     @Override
     public EntityInfoResponse getSatelliteInfo() {
@@ -42,6 +46,11 @@ public class ElephantSatellite extends Satellite {
 
         FileInfoResponse fileInfo;
         EntityInfoResponse satelliteInfo = null;
+        /** 
+         * Check if the files are added to the device or not.
+         * If no, then display the information without the information of files.
+         * Otherwise, add all information of the files to the device.
+         */
         if (listFiles.size() == 0) {
             satelliteInfo = new EntityInfoResponse(id, position, height, type);
         }
@@ -62,7 +71,7 @@ public class ElephantSatellite extends Satellite {
     }
 
     /**
-     * 
+     * Fast forward the angular position of ElephantSatellite.
      */
     @Override
     public void updatePosition() {
@@ -75,7 +84,7 @@ public class ElephantSatellite extends Satellite {
     }
 
     /**
-     * 
+     * List all possible objects that ElephantSatellite can communicate with in the certain range.
      */
     @Override
     public List<String> updateListOfCommunicableEntities(BlackoutController controller) {

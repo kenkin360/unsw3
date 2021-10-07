@@ -16,7 +16,11 @@ import unsw.utils.MathsHelper;
 public class ShrinkingSatellite extends Satellite {
 
     /**
-     * 
+     * Contructor for ShrinkingSatellite.
+     * @param satelliteId
+     * @param type
+     * @param height
+     * @param position
      */
     public ShrinkingSatellite(String satelliteId, String type, double height, Angle position) {
         super(satelliteId, "ShrinkingSatellite", height, position);
@@ -24,7 +28,7 @@ public class ShrinkingSatellite extends Satellite {
     }
 
     /**
-     * 
+     * Fast forward the angular position of ShrinkingSatellite.
      */
     @Override
     public void updatePosition() {
@@ -36,7 +40,7 @@ public class ShrinkingSatellite extends Satellite {
     }
 
     /**
-     * 
+     * Display all information of ShrinkingSatellite.
      */
     @Override
     public EntityInfoResponse getSatelliteInfo() {
@@ -54,6 +58,11 @@ public class ShrinkingSatellite extends Satellite {
 
         FileInfoResponse fileInfo;
         EntityInfoResponse satelliteInfo = null;
+        /** 
+         * Check if the files are added to the device or not.
+         * If no, then display the information without the information of files.
+         * Otherwise, add all information of the files to the device.
+         */
         if (listFiles.size() == 0) {
             satelliteInfo = new EntityInfoResponse(id, position, height, type);
         }
@@ -74,7 +83,7 @@ public class ShrinkingSatellite extends Satellite {
     }
 
     /**
-     * 
+     * List all possible objects that ShrinkingSatellite can communicate with in the certain range.
      */
     @Override
     public List<String> updateListOfCommunicableEntities(BlackoutController controller) {

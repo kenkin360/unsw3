@@ -16,8 +16,13 @@ import unsw.utils.MathsHelper;
 public class RelaySatellite extends Satellite {
 
     private boolean opposite = false;
+    
     /**
-     * 
+     * Constructor for RelaySatellite.
+     * @param satelliteId
+     * @param type
+     * @param height
+     * @param position
      */
     public RelaySatellite(String satelliteId, String type, double height, Angle position) {
         super(satelliteId, "RelaySatellite", height, position);
@@ -25,7 +30,7 @@ public class RelaySatellite extends Satellite {
     }
 
     /**
-     * 
+     * Fast forward the angular position of RelaySatellite.
      */
     @Override
     public void updatePosition() {
@@ -56,7 +61,7 @@ public class RelaySatellite extends Satellite {
     }
 
     /**
-     * 
+     * Display all information of RelaySatellite.
      */
     @Override
     public EntityInfoResponse getSatelliteInfo() {
@@ -74,6 +79,11 @@ public class RelaySatellite extends Satellite {
 
         FileInfoResponse fileInfo;
         EntityInfoResponse satelliteInfo = null;
+        /** 
+         * Check if the files are added to the device or not.
+         * If no, then display the information without the information of files.
+         * Otherwise, add all information of the files to the device.
+         */
         if (listFiles.size() == 0) {
             satelliteInfo = new EntityInfoResponse(id, position, height, type);
         }
@@ -94,7 +104,7 @@ public class RelaySatellite extends Satellite {
     }
 
     /**
-     * 
+     * List all possible objects that RelaySatellite can communicate with in the certain range.
      */
     @Override
     public List<String> updateListOfCommunicableEntities(BlackoutController controller) {
