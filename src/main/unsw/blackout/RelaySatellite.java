@@ -15,6 +15,7 @@ import unsw.utils.MathsHelper;
 
 public class RelaySatellite extends Satellite {
 
+    private boolean opposite = false;
     /**
      * 
      */
@@ -30,21 +31,20 @@ public class RelaySatellite extends Satellite {
     public void updatePosition() {
         // TODO Auto-generated method stub
         Angle newPosition;
-        int opposite = 2;
         Angle oldPosition = super.getPosition();
         Angle radianChange = Angle.fromRadians(1500 / RADIUS_OF_JUPITER);
         if (oldPosition.toDegrees() <= 140 || oldPosition.toDegrees() >= 345) {
             newPosition = oldPosition.add(radianChange);
             super.setPosition(newPosition);
-            opposite = 0;
+            opposite = false;
         }
         else if (oldPosition.toDegrees() >= 190 && oldPosition.toDegrees() < 345) {
             newPosition = oldPosition.subtract(radianChange);
             super.setPosition(newPosition);
-            opposite = 1;
+            opposite = true;
         }
         else {
-            if (opposite == 1) {
+            if (opposite == true) {
                 newPosition = oldPosition.subtract(radianChange);
                 super.setPosition(newPosition);
             }
