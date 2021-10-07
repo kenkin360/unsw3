@@ -16,6 +16,7 @@ import unsw.utils.MathsHelper;
 
 public class HandheldDevice extends Device {
 
+    private double maxRange = 50000;
     /**
      * Constructor for HandheldDevice
      * @param deviceId
@@ -80,10 +81,41 @@ public class HandheldDevice extends Device {
         List<Satellite> satelliteList = new ArrayList<Satellite>();
         satelliteList = controller.getSatelliteList();
         for (Satellite satellite : satelliteList) {
-            if (MathsHelper.isVisible(satellite.getHeight(), satellite.getPosition(), super.getPosition())) {
+            if (checkDistance(satellite) == true && checkVisibilty(satellite) == true) {
                 listCommunicableEntities.add(satellite.getId());
             }
-        }
+        } 
         return listCommunicableEntities;
+    }
+
+
+    // Helper functions
+
+    /**
+     * Check if the satellite is in the range of the device.
+     * @param satellite
+     * @return true if it is in range, otherwise false.
+     */
+    public boolean checkDistance(Satellite satellite) {
+        if (MathsHelper.getDistance(satellite.getHeight(), satellite.getPosition(), super.getPosition()) <= maxRange) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * Check if the satellite is visible from the device.
+     * @param satellite
+     * @return true if it is visible, otherwise false.
+     */
+    public boolean checkVisibilty(Satellite satellite) {
+        if (MathsHelper.isVisible(satellite.getHeight(), satellite.getPosition(), super.getPosition())) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

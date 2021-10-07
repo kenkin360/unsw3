@@ -79,11 +79,28 @@ public class CloudStorageDevice extends Device {
         List<Satellite> satelliteList = new ArrayList<Satellite>();
         satelliteList = controller.getSatelliteList();
         for (Satellite satellite : satelliteList) {
-            if (MathsHelper.isVisible(satellite.getHeight(), satellite.getPosition(), super.getPosition())) {
+            if (checkVisibilty(satellite) == true) {
                 listCommunicableEntities.add(satellite.getId());
-            } 
-        }
+            }
+        } 
         return listCommunicableEntities;
+    }
+
+
+    // Helper functions
+
+    /**
+     * Check if the satellite is visible from the device.
+     * @param satellite
+     * @return true if it is visible, otherwise false.
+     */
+    public boolean checkVisibilty(Satellite satellite) {
+        if (MathsHelper.isVisible(satellite.getHeight(), satellite.getPosition(), super.getPosition())) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     
 }

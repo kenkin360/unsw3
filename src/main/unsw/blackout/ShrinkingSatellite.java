@@ -15,6 +15,10 @@ import unsw.utils.MathsHelper;
 
 public class ShrinkingSatellite extends Satellite {
 
+    private double maxRange = 200000;
+    private double linearVelocity = 1000;
+    private Angle radianChange = Angle.fromRadians(linearVelocity / RADIUS_OF_JUPITER);
+
     /**
      * Contructor for ShrinkingSatellite.
      * @param satelliteId
@@ -34,7 +38,6 @@ public class ShrinkingSatellite extends Satellite {
     public void updatePosition() {
         // TODO Auto-generated method stub
         Angle oldPosition = super.getPosition();
-        Angle radianChange = Angle.fromRadians(1000 / RADIUS_OF_JUPITER);
         Angle newPosition = radianChange.add(oldPosition);
         super.setPosition(newPosition);
     }
@@ -98,16 +101,76 @@ public class ShrinkingSatellite extends Satellite {
                 // Ignore the selected satellite itself
             }
             else {
-                if (MathsHelper.isVisible(super.getHeight(), super.getPosition(), satellite.getHeight(), satellite.getPosition())) {
+                if (checkSatelliteDistance(satellite) == true && checkSatelliteVisibilty(satellite) == true) {
                     listCommunicableEntities.add(satellite.getId());
                 }
             }
         }
         for (Device device : deviceList) {
-            if (MathsHelper.isVisible(super.getHeight(), super.getPosition(), device.getPosition())) {
+            if (checkDeviceDistance(device) == true && checkDeviceVisibilty(device) == true) {
                 listCommunicableEntities.add(device.getId());
-            }    
+            }
         }
         return listCommunicableEntities;
+    }
+    
+
+
+    // Helper functions
+
+    /**
+    * Check if the satellite is in the range of the chosen satellite.
+    * @param satellite
+    * @return true if it is in range, otherwise false.
+    */
+    public boolean checkSatelliteDistance(Satellite satellite) {
+        if (MathsHelper.getDistance(super.getHeight(), super.getPosition(), satellite.getHeight(), satellite.getPosition()) <= maxRange) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+    * Check if the satellite is visible from the chosen satellite.
+    * @param satellite
+    * @return true if it is visible, otherwise false.
+    */
+    public boolean checkSatelliteVisibilty(Satellite satellite) {
+        if (MathsHelper.isVisible(super.getHeight(), super.getPosition(), satellite.getHeight(), satellite.getPosition())) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+    * Check if the device is in the range of the satellite.
+    * @param device
+    * @return true if it is in range, otherwise false.
+    */
+    public boolean checkDeviceDistance(Device device) {
+        if (MathsHelper.getDistance(super.getHeight(), super.getPosition(), device.getPosition()) <= maxRange) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+    * Check if the device is visible from the satellite.
+    * @param device
+    * @return true if it is visible, otherwise false.
+    */
+    public boolean checkDeviceVisibilty(Device device) {
+        if (MathsHelper.isVisible(super.getHeight(), super.getPosition(), device.getPosition())) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

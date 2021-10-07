@@ -15,6 +15,7 @@ import unsw.utils.MathsHelper;
 
 public class DesktopDevice extends Device {
 
+    private double maxRange = 200000;
     /**
      * Constructor for DesktopDevice.
      * @param deviceId
@@ -80,11 +81,41 @@ public class DesktopDevice extends Device {
         satelliteList = controller.getSatelliteList();
         for (Satellite satellite : satelliteList) {
             if (satellite.getType().equals("ShrinkingSatellite") || satellite.getType().equals("RelaySatellite")) {
-                if (MathsHelper.isVisible(satellite.getHeight(), satellite.getPosition(), super.getPosition())) {
+                if (checkDistance(satellite) == true && checkVisibilty(satellite) == true) {
                     listCommunicableEntities.add(satellite.getId());
                 }
             } 
         }
         return listCommunicableEntities;
+    }
+
+    // Helper functions
+
+    /**
+     * Check if the satellite is in the range of the device.
+     * @param satellite
+     * @return true if it is in range, otherwise false.
+     */
+    public boolean checkDistance(Satellite satellite) {
+        if (MathsHelper.getDistance(satellite.getHeight(), satellite.getPosition(), super.getPosition()) <= maxRange) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * Check if the satellite is visible from the device.
+     * @param satellite
+     * @return true if it is visible, otherwise false.
+     */
+    public boolean checkVisibilty(Satellite satellite) {
+        if (MathsHelper.isVisible(satellite.getHeight(), satellite.getPosition(), super.getPosition())) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
